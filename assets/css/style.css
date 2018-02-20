@@ -1,7 +1,7 @@
 body {
     background: url('../images/x-wing-fighter-background.jpg');
     font-family: 'Star Jedi';
-    color: #ffffff;
+    color: #333333;
 }
 h1 {
     font-size: 56px;
@@ -11,4 +11,9 @@ h1 {
 h2 {
     font-size: 28px;
     text-align: left;
+}
+button {
+    font-family: 'Star Jedi';
+    color: #333333;
+    margin: 10px 0;
 }
