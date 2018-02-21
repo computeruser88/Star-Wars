@@ -34,7 +34,10 @@ figcaption {
     background: #ffffff;
 }
 #your-character {
-    height: 150px;
+}
+#your-pic {
+    max-height: 150px;
+    max-width: 150px;
 }
 #enemies-to-attack {
 }

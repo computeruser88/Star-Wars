@@ -24,7 +24,7 @@ $(document).ready(function () {
     fighter[2].counterAttackPower = 15;
 
     fighter[3] = new character();
-    fighter[3].name = "Darth Vader";
+    fighter[3].name = "Darth vader";
     fighter[3].counterAttackPower = 20;
 
     var yourCharacter = {};
@@ -45,34 +45,39 @@ $(document).ready(function () {
         fighter[3].healthPoints = 180; // Vader
         fighter[3].attackPower = 11;
     }
-    function createYourCharacter(yourCharacter, yourPicture) {
+    function createAllCharacters(yourCharacter, yourPicture) {
         console.log("yourCharacter " + yourCharacter);
         $("#choose-character").empty();
+
+        // add enemies
         for (var i = 0; i < fighter.length; i++) {
             if (fighter[i].name !== yourCharacter.name) {
                 enemies.push(fighter[i]);
                 console.log("Enemies " + enemies);
             }
         }
-        yourCharacterDiv = $('<figure><figcaption id="your-name">' + yourCharacter.name +
-            '</figcaption>' + '<img id="yourPic" src="../images/' + yourPicture + '" alt="' + yourCharacter.name + '"><figcaption id="your-health-points">' + yourCharacter.healthPoints + '</figcaption');
+        yourCharacterDiv = $("<div>");
+        
+        yourCharacterDiv.html('<figure id="you"><figcaption id="your-name">' + yourCharacter.name +
+            '</figcaption>' + yourPicture + '<figcaption>' + yourCharacter.healthPoints + '</figcaption>');
         console.log(yourCharacterDiv);
-        $("#your-character").append(yourCharacterDiv);
+
+        $("#your-character").html(yourCharacterDiv);
     }
 
     initialize();
 
-    $("<body>").on("click", "#luke-skywalker", function () {
+    $("#choose-character").on("click", "#choose-luke-skywalker", function () {
         yourCharacter = fighter[0];
-        createYourCharacter(yourCharacter, "luke-skywalker.JPG");
-    }).on("click", "#rey", function () {
+        createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/luke-skywalker.JPG">');
+    }).on("click", "#choose-rey", function () {
         yourCharacter = fighter[1];
-        createYourCharacter(yourCharacter, "rey.JPG");
-    }).on("click", "#kylo-ren", function () {
+        createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/rey.JPG">');
+    }).on("click", "#choose-kylo-ren", function () {
         yourCharacter = fighter[2];
-        createYourCharacter(yourCharacter, "kylo-ren.JPG");
-    }).on("click", "#darth-vader", function () {
+        createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/kylo-ren.JPG">');
+    }).on("click", "#choose-darth-vader", function () {
         yourCharacter = fighter[3];
-        createYourCharacter(yourCharacter, "darth-vader.JPG");
+        createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/darth-vader.JPG">');
     });
 });
