@@ -33,5 +33,8 @@ figcaption {
     text-align: center;
     background: #ffffff;
 }
-#choose-character {
+#your-character {
+    height: 150px;
+}
+#enemies-to-attack {
 }
