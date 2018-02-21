@@ -33,11 +33,16 @@ figcaption {
     text-align: center;
     background: #ffffff;
 }
+.enemy {
+    border: 2px solid #ff0000;
+}
+.enemy-name {
+}
+.enemy-health-points {
+}
 #your-character {
 }
 #your-pic {
-    max-height: 150px;
-    max-width: 150px;
 }
 #enemies-to-attack {
 }
