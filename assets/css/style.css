@@ -10,7 +10,7 @@ h1 {
 }
 h2 {
     font-size: 28px;
-    text-align: left;
+    left: 0;
 }
 button {
     font-family: 'Star Jedi';
@@ -18,4 +18,20 @@ button {
     background: #ff0000;
     margin: 20px 0;
 }
-
+figure {
+    float: left;
+    padding: 0 10px;
+    margin: 0 5px;
+    background: #ffffff;
+}
+figure img {
+    width: 150px;
+    height: 150px;
+}
+figcaption {
+    text-align: center;
+    background: #ffffff;
+}
+div #choose-character {
+    display: absolute;
+}
