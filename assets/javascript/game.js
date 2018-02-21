@@ -59,11 +59,11 @@ $(document).ready(function () {
         for (var i = 0; i < fighter.length; i++) {
             if (fighter[i].name !== yourCharacter.name) {
                 enemies.push(fighter[i]);
-                console.log("Enemies " + enemies);
+                console.log("Enemy " + enemies);
             }
         }
         yourCharacterDiv = $("<div>");
-        
+
         yourCharacterDiv.html('<figure id="you"><figcaption id="your-name">' + yourCharacter.name +
             '</figcaption>' + yourPicture + '<figcaption>' + yourCharacter.healthPoints + '</figcaption>');
         console.log(yourCharacterDiv);
@@ -71,14 +71,13 @@ $(document).ready(function () {
         $("#your-character").html(yourCharacterDiv);
 
         // create divs for all enemies
-        for (var i = 0; i < fighter.length; i++) {
-            if (fighter[i].name !== yourCharacter.name) {
-                // create enemy div and append to #enemies-to-attack
-                enemyDiv[i] = $("<div>");
-                enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + yourCharacter.name +
-                '</figcaption>' + fighter[i].picture + '<figcaption class="enemy-health-points">' + fighter[i].healthPoints + '</figcaption>');
-                $("#enemies-to-attack").append(enemyDiv[i]);
-            }
+        for (var i = 0; i < enemies.length; i++) {
+            // create enemy div and append to #enemies-to-attack
+            enemyDiv[i] = $("<div>");
+            enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + enemies[i].name +
+                '</figcaption>' + enemies[i].picture + '<figcaption class="enemy-health-points">' + enemies[i].healthPoints + '</figcaption>');
+            $("#enemies-to-attack").append(enemyDiv[i]);
+
         }
     }
 
