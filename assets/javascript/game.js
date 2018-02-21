@@ -9,6 +9,7 @@ $document.ready(function () {
     };
 
     var fighter = [];
+    
     function initialize() {
         fighter[0] = new character();
         fighter[0].name = "Luke Skywalker";
