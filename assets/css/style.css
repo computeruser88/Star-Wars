@@ -10,7 +10,7 @@ h1 {
 }
 h2 {
     font-size: 28px;
-    left: 0;
+    clear: both;
 }
 button {
     font-family: 'Star Jedi';
@@ -33,6 +33,5 @@ figcaption {
     text-align: center;
     background: #ffffff;
 }
-div #choose-character {
-    display: absolute;
+#choose-character {
 }
