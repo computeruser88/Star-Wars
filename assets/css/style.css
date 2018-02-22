@@ -4,19 +4,19 @@ body {
     color: #333333;
 }
 h1 {
-    font-size: 56px;
+    font-size: 42px;
     text-align: right;
     margin-right: 200px;
 }
 h2 {
-    font-size: 28px;
+    font-size: 20px;
     clear: both;
 }
-button {
+#attack {
     font-family: 'Star Jedi';
     color: #333333;
     background: #ff0000;
-    margin: 20px 0;
+    margin: 5px 0;
 }
 figure {
     float: left;
@@ -26,31 +26,41 @@ figure {
     border: 2px solid #00ff00;
 }
 figure img {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
 }
 figcaption {
     text-align: center;
+    font-size: 13px;
     background: #ffffff;
 }
 .enemy {
+    border: 2px solid #333333;
+    background: #ff0000;
+}
+.enemy figcaption {
+    color: #333333;
+    background: #ff0000;
+}
+.defender {
     border: 2px solid #ff0000;
-}
-.enemy-name {
-}
-.enemy-health-points {
+    background: #333333;
 }
 .defender figure {
-    border: 2px solid #ff0000;
+    padding: 0 10px;
+}
+.defender figcaption {
     background: #333333;
     color: #ffffff;
 }
 #attack {
-    /* visibility: hidden; */
 }
 #your-character {
 }
 #your-pic {
 }
 #enemies-to-attack {
+}
+#message {
+    font-size: 16px;
 }

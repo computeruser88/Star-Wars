@@ -69,8 +69,7 @@ $(document).ready(function () {
                 console.log("Enemy " + enemies);
             }
         }
-
-
+        // create yourCharacterDiv
         yourCharacterDiv.html('<figure id="you"><figcaption id="your-name">' + yourCharacter.name +
             '</figcaption>' + yourPicture + '<figcaption id="your-health-points">' + yourCharacter.healthPoints + '</figcaption>');
         console.log(yourCharacterDiv);
@@ -80,6 +79,7 @@ $(document).ready(function () {
         // create divs for all enemies
         for (var i = 0; i < enemies.length; i++) {
             // create enemy div and append to #enemies-to-attack
+            console.log("enemies[i].name " + enemies[i].name);
             enemyDiv[i] = $("<div>");
             enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + enemies[i].name +
                 '</figcaption>' + enemies[i].picture + '<figcaption class="enemy-health-points">' + enemies[i].healthPoints + '</figcaption>');
@@ -90,35 +90,99 @@ $(document).ready(function () {
 
     function chooseFirstDefender() {
         $("#enemies-to-attack").on("click", enemyDiv[0], function () {
-            enemyDiv[0].remove();
+            $(enemyDiv[0]).remove();
             defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
                 '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
             $("#defender").append(defenderDiv);
             defender = enemies[0];
-        }).on("click", enemyDiv[1], function () {
-            enemyDiv[1].remove();
+            enemies.splice(0, 1);
+            for (var i = 0; i < enemies.length; i++) {
+                console.log("enemies[i].name " + enemies[i].name);
+                // create enemy div and append to #enemies-to-attack
+                enemyDiv[i] = $("<div>");
+                enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + enemies[i].name +
+                    '</figcaption>' + enemies[i].picture + '<figcaption class="enemy-health-points">' + enemies[i].healthPoints + '</figcaption>');
+                $("#enemies-to-attack").append(enemyDiv[i]);
+            }
+            return defender;
+        });
+        $("#enemies-to-attack").on("click", enemyDiv[1], function () {
+            $(enemyDiv[1]).remove();
             defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[1].name +
                 '</figcaption>' + enemies[1].picture + '<figcaption class="defender-health-points">' + enemies[1].healthPoints + '</figcaption>');
             $("#defender").append(defenderDiv);
             defender = enemies[1];
-        }).on("click", enemyDiv[2], function () {
-            enemyDiv[2].remove();
+            enemies.splice(1, 1);
+            for (var i = 0; i < enemies.length; i++) {
+                // create enemy div and append to #enemies-to-attack
+                console.log("enemies[i].name " + enemies[i].name);
+                enemyDiv[i] = $("<div>");
+                enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + enemies[i].name +
+                    '</figcaption>' + enemies[i].picture + '<figcaption class="enemy-health-points">' + enemies[i].healthPoints + '</figcaption>');
+                $("#enemies-to-attack").append(enemyDiv[i]);
+            }
+            return defender;
+        });
+        $("#enemies-to-attack").on("click", enemyDiv[2], function () {
+            $(enemyDiv[2]).remove();
             defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[2].name +
                 '</figcaption>' + enemies[2].picture + '<figcaption class="defender-health-points">' + enemies[2].healthPoints + '</figcaption>');
             $("#defender").append(defenderDiv);
             defender = enemies[2];
+            enemies.splice(2, 1);
+            for (var i = 0; i < enemies.length; i++) {
+                // create enemy div and append to #enemies-to-attack
+                console.log("enemies[i].name " + enemies[i].name);
+                enemyDiv[i] = $("<div>");
+                enemyDiv[i].html('<figure class="enemy"><figcaption class="enemy-name">' + enemies[i].name +
+                    '</figcaption>' + enemies[i].picture + '<figcaption class="enemy-health-points">' + enemies[i].healthPoints + '</figcaption>');
+                $("#enemies-to-attack").append(enemyDiv[i]);
+            }
+            return defender;
         });
-        return defender;
     }
 
-    function fight (yourCharacter, defender) {
-        $("#attack").on("click", function( {
+    function chooseSecondDefender() {
+        $("#enemies-to-attack").on("click", enemyDiv[0], function () {
+            $(enemyDiv[0]).remove();
+            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
+                '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
+            $("#defender").append(defenderDiv);
+            defender = enemies[0];
+            enemies.splice(0, 1);
+            return defender;
+        }).on("click", enemyDiv[1], function () {
+            $(enemyDiv[1]).remove();
+            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[1].name +
+                '</figcaption>' + enemies[1].picture + '<figcaption class="defender-health-points">' + enemies[1].healthPoints + '</figcaption>');
+            $("#defender").append(defenderDiv);
+            defender = enemies[1];
+            enemies.splice(1, 1);
+            return defender;
+        });
+    }
+
+    function chooseFinalDefender() {
+        $("#enemies-to-attack").on("click", enemyDiv[0], function () {
+            $(enemyDiv[0]).remove();
+            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
+                '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
+            $("#defender").append(defenderDiv);
+            defender = enemies[0];
+            enemies.length = 0;
+            return defender;
+        });
+    }
+
+    function fight(yourCharacter, defender) {
+        $("<button>").on("click", "#attack", function () {
             // attack first, counterattack second, update message third
             defender.healthPoints = defender.healthPoints - yourCharacter.attackPower;
             $("#message").text("You attacked " + defender.name + " for " + yourCharacter.attackPower + " damage.");
             yourCharacter.attackPower += 8; // increment your attackPower
             if (defender.healthPoints <= 0) {
                 defender.isDead = true;
+                $(defenderDiv).remove();
             }
             // counterattack
             yourCharacter.healthPoints -= defender.counterAttackPower;
