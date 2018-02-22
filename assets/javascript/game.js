@@ -27,35 +27,37 @@ $(document).ready(function () {
 
     fighter[2] = new character();
     fighter[2].name = "Kylo Ren";
-    fighter[2].counterAttackPower = 20;
+    fighter[2].counterAttackPower = 15;
     fighter[2].picture = '<img src="assets/images/kylo-ren.JPG">';
 
     fighter[3] = new character();
     fighter[3].name = "Darth vader";
-    fighter[3].counterAttackPower = 25;
+    fighter[3].counterAttackPower = 20;
     fighter[3].picture = '<img src="assets/images/darth-vader.JPG">';
 
     var yourCharacter = {};
     var yourCharacterDiv = $("<div>");
     var defender = {};
+    var defenderIndex = -1;
     var defenderDiv = $("<div>");
     var enemyDiv = [];
 
     function initialize() {
         // reset healthPoints and attackPower for each fighter
         fighter[0].healthPoints = 100; // Luke
-        fighter[0].attackPower = 8;
+        fighter[0].attackPower = 10;
 
         fighter[1].healthPoints = 120; // Rey
-        fighter[1].attackPower = 9;
+        fighter[1].attackPower = 11;
 
         fighter[2].healthPoints = 150; // Kylo
-        fighter[2].attackPower = 10;
+        fighter[2].attackPower = 12;
 
         fighter[3].healthPoints = 180; // Vader
-        fighter[3].attackPower = 11;
+        fighter[3].attackPower = 13;
 
         defender = {};
+        defenderIndex = -1;
         yourCharacter = {};
         enemies.length = 0;
     }
@@ -76,7 +78,8 @@ $(document).ready(function () {
         console.log(yourCharacterDiv);
 
         $("#your-character").html(yourCharacterDiv);
-        for (var i = 0; i < enemies.length; i++){
+        $("#message").text("You have chosen " + yourCharacter.name + ". Please select an enemy to fight.");
+        for (var i = 0; i < enemies.length; i++) {
             enemies[i].isDead = false;
             enemies[i].isDefender = false;
         }
@@ -85,8 +88,8 @@ $(document).ready(function () {
     }
     function redrawEnemiesToAttack() {
         for (var i = 0; i < enemies.length; i++) {
-            // create enemy div and append to #enemies-to-attack
-            if (enemies[i].isDead ||  enemies[i].isDefender) {
+            // create enemy div and append to #enemies-to-attack if not dead or defender
+            if (enemies[i].isDead || enemies[i].isDefender) {
                 continue;
             } else {
                 console.log("enemies[i].name " + enemies[i].name);
@@ -98,75 +101,102 @@ $(document).ready(function () {
         }
     }
 
+    function drawDefenderDiv(index) {
+        defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[index].name +
+            '</figcaption>' + enemies[index].picture + '<figcaption class="defender-health-points">' + enemies[index].healthPoints + '</figcaption>');
+        $("#defender").html(defenderDiv);
+        $("#message").text("You have chosen to fight " + enemies[index].name + ". Click attack to begin.");
+    }
+
     function chooseFirstDefender() {
         $(enemyDiv[0]).on("click", function () {
             $(this).remove();
-            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
-                '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
-            $("#defender").append(defenderDiv);
-            defender = enemies[0];
+            drawDefenderDiv(0);
             enemies[0].isDefender = true;
-            return defender;
+            console.log(enemies[0].healthPoints);
+            fight(enemies[0], 0, enemies[0].healthPoints);
+            return 0;
         });
         $(enemyDiv[1]).on("click", function () {
             $(this).remove();
-            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
-                '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
-            $("#defender").append(defenderDiv);
-            defender = enemies[0];
-            enemies[0].isDefender = true;
-            return defender;
+            drawDefenderDiv(1);
+            enemies[1].isDefender = true;
+            console.log(enemies[1].healthPoints);
+            fight(enemies[1], 1, enemies[1].healthPoints);
+            return 1;
         });
         $(enemyDiv[2]).on("click", function () {
             $(this).remove();
-            defenderDiv.html('<figure class="defender"><figcaption class="defender-name">' + enemies[0].name +
-                '</figcaption>' + enemies[0].picture + '<figcaption class="defender-health-points">' + enemies[0].healthPoints + '</figcaption>');
-            $("#defender").append(defenderDiv);
-            defender = enemies[0];
-            enemies[0].isDefender = true;
-            return defender;
+            drawDefenderDiv(2);
+            enemies[2].isDefender = true;
+            console.log(enemies[2].healthPoints);
+            fight(enemies[1], 2, enemies[1].healthPoints);
+            return 2;
         });
     }
 
-    function fight(yourCharacter, defender) {
-        $("<button>").on("click", "#attack", function () {
+    function fight(defender, index, defenderHealthPoints) { //returns true for your victory and false for your defeat
+        $("#attack").on("click", function () {
             // attack first, counterattack second, update message third
-            defender.healthPoints = defender.healthPoints - yourCharacter.attackPower;
-            $(".defender-health-points").text(defender.healthPoints);
-            $("#message").text("You attacked " + defender.name + " for " + yourCharacter.attackPower + " damage.");
-            yourCharacter.attackPower += 8; // increment your attackPower
-            if (defender.healthPoints <= 0) {
-                defender.isDead = true;
+            defenderHealthPoints -= yourCharacter.attackPower;
+            $(".defender-health-points").text(defenderHealthPoints);
+            $("#message").text("You attacked " + enemies[index].name + " for " + yourCharacter.attackPower + " damage.");
+            yourCharacter.attackPower += 15; // increment your attackPower
+            if (defenderHealthPoints <= 0) {
+                enemies[index].isDead = true;
+                enemies[index].isDefender = false;
                 $(defenderDiv).remove();
-            }
-            // counterattack
-            yourCharacter.healthPoints -= defender.counterAttackPower;
-            $("#your-health-points").text(yourCharacter.healthPoints);
-            if (yourCharacter.healthPoints <= 0) {
-                yourCharacter.isDead = true;
+                $("#message").append("You have defeated " + enemies[index].name + ".<br>Now choose to fight another enemy.");
             } else {
-                $("#message").append("<br>" + defender.name + " attacked you back for " + defender.counterAttackPower + " damage.");
+                // counterattack
+                yourCharacter.healthPoints -= enemies[index].counterAttackPower;
+                $("#your-health-points").text(yourCharacter.healthPoints);
+                if (yourCharacter.healthPoints <= 0) {
+                    yourCharacter.isDead = true;
+                    $("#message").append("<br>You have been defeated... game over!!!");
+                } else {
+                    $("#message").append("<br>" + enemies[index].name + " attacked you back for " + enemies[index].counterAttackPower + " damage.");
+                }
+                if (yourCharacter.isDead === false && enemies[index].isDead === true) {
+                    return true;
+                } else if (yourCharacter.isDead) {
+                    return false;
+                }
             }
         });
     }
-
-    initialize();
 
     $("#choose-character").on("click", "#choose-luke-skywalker", function () {
+        initialize();
         yourCharacter = fighter[0];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/luke-skywalker.JPG" alt="Luke Skywalker">');
-        fight(yourCharacter, chooseFirstDefender());
+        defenderIndex = chooseFirstDefender();
+        // console.log (defenderIndex);
+        // console.log(enemies[defenderIndex].healthPoints);
+        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
     }).on("click", "#choose-rey", function () {
+        initialize();
         yourCharacter = fighter[1];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/rey.JPG" alt="Rey">');
-        fight(yourCharacter, chooseFirstDefender());
+        defenderIndex = chooseFirstDefender();
+        // console.log (defenderIndex);
+        // console.log(enemies[defenderIndex].healthPoints);
+        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
     }).on("click", "#choose-kylo-ren", function () {
+        initialize();
         yourCharacter = fighter[2];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/kylo-ren.JPG" alt="Kylo Ren">');
-        fight(yourCharacter, chooseFirstDefender());
+        defenderIndex = chooseFirstDefender();
+        // console.log (defenderIndex);
+        // console.log(enemies[defenderIndex].healthPoints);
+        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
     }).on("click", "#choose-darth-vader", function () {
+        initialize();
         yourCharacter = fighter[3];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/darth-vader.JPG" alt="Darth Vader">');
-        fight(yourCharacter, chooseFirstDefender());
+        defenderIndex = chooseFirstDefender();
+        // console.log (defenderIndex);
+        // console.log(enemies[defenderIndex].healthPoints);
+        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
     });
 });

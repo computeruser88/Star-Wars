@@ -62,5 +62,6 @@ figcaption {
 #enemies-to-attack {
 }
 #message {
-    font-size: 16px;
+    font-size: 14px;
+    clear: both;
 }
