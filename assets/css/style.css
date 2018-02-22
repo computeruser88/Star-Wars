@@ -40,6 +40,14 @@ figcaption {
 }
 .enemy-health-points {
 }
+.defender figure {
+    border: 2px solid #ff0000;
+    background: #333333;
+    color: #ffffff;
+}
+#attack {
+    /* visibility: hidden; */
+}
 #your-character {
 }
 #your-pic {
