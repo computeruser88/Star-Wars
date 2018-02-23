@@ -17,22 +17,22 @@ $(document).ready(function () {
 
     fighter[0] = new character();
     fighter[0].name = "Luke Skywalker";
-    fighter[0].counterAttackPower = 5;
+    fighter[0].counterAttackPower = 8;
     fighter[0].picture = '<img src="assets/images/luke-skywalker.JPG">';
 
     fighter[1] = new character();
     fighter[1].name = "Rey";
-    fighter[1].counterAttackPower = 10;
+    fighter[1].counterAttackPower = 11;
     fighter[1].picture = '<img src="assets/images/rey.JPG">';
 
     fighter[2] = new character();
     fighter[2].name = "Kylo Ren";
-    fighter[2].counterAttackPower = 15;
+    fighter[2].counterAttackPower = 25;
     fighter[2].picture = '<img src="assets/images/kylo-ren.JPG">';
 
     fighter[3] = new character();
     fighter[3].name = "Darth vader";
-    fighter[3].counterAttackPower = 20;
+    fighter[3].counterAttackPower = 30;
     fighter[3].picture = '<img src="assets/images/darth-vader.JPG">';
 
     var yourCharacter = {};
@@ -45,16 +45,16 @@ $(document).ready(function () {
     function initialize() {
         // reset healthPoints and attackPower for each fighter
         fighter[0].healthPoints = 100; // Luke
-        fighter[0].attackPower = 10;
+        fighter[0].attackPower = 8;
 
         fighter[1].healthPoints = 120; // Rey
-        fighter[1].attackPower = 11;
+        fighter[1].attackPower = 8;
 
         fighter[2].healthPoints = 150; // Kylo
-        fighter[2].attackPower = 12;
+        fighter[2].attackPower = 8;
 
-        fighter[3].healthPoints = 180; // Vader
-        fighter[3].attackPower = 13;
+        fighter[3].healthPoints = 170; // Vader
+        fighter[3].attackPower = 8;
 
         defender = {};
         defenderIndex = -1;
@@ -108,7 +108,7 @@ $(document).ready(function () {
         $("#message").text("You have chosen to fight " + enemies[index].name + ". Click attack to begin.");
     }
 
-    function chooseFirstDefender() {
+    function chooseDefender() {
         $(enemyDiv[0]).on("click", function () {
             $(this).remove();
             drawDefenderDiv(0);
@@ -141,12 +141,28 @@ $(document).ready(function () {
             defenderHealthPoints -= yourCharacter.attackPower;
             $(".defender-health-points").text(defenderHealthPoints);
             $("#message").text("You attacked " + enemies[index].name + " for " + yourCharacter.attackPower + " damage.");
-            yourCharacter.attackPower += 15; // increment your attackPower
+            yourCharacter.attackPower += 10; // increment your attackPower
             if (defenderHealthPoints <= 0) {
                 enemies[index].isDead = true;
                 enemies[index].isDefender = false;
                 $(defenderDiv).remove();
-                $("#message").append("You have defeated " + enemies[index].name + ".<br>Now choose to fight another enemy.");
+                $("#message").append("<br>You have defeated " + enemies[index].name + ".");
+                var enemiesLeft = false;
+                for (var i = 0; i < enemies.length; i++) {
+                    if (enemies[i].isDead === false) {
+                        enemiesLeft = true;
+                    }
+                }
+                if (enemiesLeft === false) {
+                    $("#message").append("<br>all enemies are dead!!!");
+                    if (yourCharacter.name === "Rey" || yourCharacter.name === "Luke Skywalker"){
+                        $("#message").append("<br>the jedi have prevailed over the empire!!!");
+                    } else {
+                        $("#message").append("<br>long live the galactic empire!!!");
+                    }
+                } else {
+                    $("#message").append("<br>Now choose to fight another enemy.");
+                }
             } else {
                 // counterattack
                 yourCharacter.healthPoints -= enemies[index].counterAttackPower;
@@ -170,33 +186,21 @@ $(document).ready(function () {
         initialize();
         yourCharacter = fighter[0];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/luke-skywalker.JPG" alt="Luke Skywalker">');
-        defenderIndex = chooseFirstDefender();
-        // console.log (defenderIndex);
-        // console.log(enemies[defenderIndex].healthPoints);
-        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
+        chooseDefender();
     }).on("click", "#choose-rey", function () {
         initialize();
         yourCharacter = fighter[1];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/rey.JPG" alt="Rey">');
-        defenderIndex = chooseFirstDefender();
-        // console.log (defenderIndex);
-        // console.log(enemies[defenderIndex].healthPoints);
-        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
+        chooseDefender();
     }).on("click", "#choose-kylo-ren", function () {
         initialize();
         yourCharacter = fighter[2];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/kylo-ren.JPG" alt="Kylo Ren">');
-        defenderIndex = chooseFirstDefender();
-        // console.log (defenderIndex);
-        // console.log(enemies[defenderIndex].healthPoints);
-        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
+        chooseDefender();
     }).on("click", "#choose-darth-vader", function () {
         initialize();
         yourCharacter = fighter[3];
         createAllCharacters(yourCharacter, '<img id="your-pic" src="assets/images/darth-vader.JPG" alt="Darth Vader">');
-        defenderIndex = chooseFirstDefender();
-        // console.log (defenderIndex);
-        // console.log(enemies[defenderIndex].healthPoints);
-        // fight(enemies[defenderIndex], defenderIndex, enemies[defenderIndex].healthPoints);
+        chooseDefender();
     });
 });
