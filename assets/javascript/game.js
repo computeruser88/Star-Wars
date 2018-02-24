@@ -109,18 +109,30 @@ $(document).ready(function () {
     }
 
     function chooseDefender() {
-        for (var i = 0; i < enemyDiv.length; i++) {
-            $(enemyDiv[i]).on("click", function () {
-                $(this).remove();
-                drawDefenderDiv(i);
-                enemies[i].isDefender = true;
-                console.log(enemies[i].healthPoints);
-                if (fight(enemies[i], i, enemies[i].healthPoints)) {
-                    redrawEnemiesToAttack();
-                }
-            });
-        }
-
+        $(enemyDiv[0]).on("click", function () {
+            $(this).remove();
+            drawDefenderDiv(0);
+            enemies[0].isDefender = true;
+            console.log(enemies[0].healthPoints);
+            fight(enemies[0], 0, enemies[0].healthPoints);
+            return 0;
+        });
+        $(enemyDiv[1]).on("click", function () {
+            $(this).remove();
+            drawDefenderDiv(1);
+            enemies[1].isDefender = true;
+            console.log(enemies[1].healthPoints);
+            fight(enemies[1], 1, enemies[1].healthPoints);
+            return 1;
+        });
+        $(enemyDiv[2]).on("click", function () {
+            $(this).remove();
+            drawDefenderDiv(2);
+            enemies[2].isDefender = true;
+            console.log(enemies[2].healthPoints);
+            fight(enemies[1], 2, enemies[1].healthPoints);
+            return 2;
+        });
     }
 
     function fight(defender, index, defenderHealthPoints) { //returns true for your victory and false for your defeat
