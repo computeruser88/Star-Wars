@@ -153,7 +153,7 @@ $(document).ready(function () {
                 if (enemiesLeft === false) {
                     $("#message").append("<br>all enemies are dead!!!");
                     if (yourCharacter.name === "Rey" || yourCharacter.name === "Luke Skywalker"){
-                        $("#message").append("<br>the jedi have prevailed over the empire!!!");
+                        $("#message").append("<br>you are now the last jedi!!!");
                     } else {
                         $("#message").append("<br>long live the galactic empire!!!");
                     }
