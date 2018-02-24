@@ -155,7 +155,7 @@ $(document).ready(function () {
                     if (yourCharacter.name === "Rey" || yourCharacter.name === "Luke Skywalker"){
                         $("#message").append("<br>you are now the last jedi!!!");
                     } else {
-                        $("#message").append("<br>long live the galactic empire!!!");
+                        $("#message").append("<br>the empire prevails!!!");
                     }
                 } else {
                     $("#message").append("<br>Now choose to fight another enemy.");
